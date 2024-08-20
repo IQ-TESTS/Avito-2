@@ -1,5 +1,6 @@
 import flet as ft
 import json
+import asyncio
 import aiofiles
 import os
 import shutil
@@ -55,7 +56,7 @@ async def main(page: ft.Page):
                                     ft.Text("Неверное имя пользователя или пароль", weight=ft.FontWeight.BOLD,
                                             color=ft.colors.RED),
                                     ft.Text("Или", weight=ft.FontWeight.BOLD),
-                                    ft.ElevatedButton("Создайте новый", on_click=lambda _: page.go("/signUp"))
+                                    ft.ElevatedButton("Создайте новый", on_click=lambda _: page.go("/"))
                                 ],
                                 vertical_alignment=ft.MainAxisAlignment.CENTER,
                                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
@@ -75,7 +76,7 @@ async def main(page: ft.Page):
                                 ft.Text("Неверное имя пользователя или пароль", weight=ft.FontWeight.BOLD,
                                         color=ft.colors.RED),
                                 ft.Text("Или", weight=ft.FontWeight.BOLD),
-                                ft.ElevatedButton("Создайте новый", on_click=lambda _: page.go("/signUp"))
+                                ft.ElevatedButton("Создайте новый", on_click=lambda _: page.go("/signIn"))
                             ],
                             vertical_alignment=ft.MainAxisAlignment.CENTER,
                             horizontal_alignment=ft.CrossAxisAlignment.CENTER
@@ -157,7 +158,7 @@ async def main(page: ft.Page):
 
 
                 else:
-                    with open(".venv/users_data.json", "r") as file:
+                    with open("users_data.json", "r") as file:
                         data = json.load(file)
 
                     data[username.value] = {}
@@ -172,7 +173,7 @@ async def main(page: ft.Page):
                     global local_username
                     local_username = new_user["username"]
 
-                    with open(".venv/users_data.json", "w") as file:
+                    with open("users_data.json", "w") as file:
                         json.dump(data, file)
 
                     src_dir = f'assets/{username.value}'
@@ -348,10 +349,9 @@ async def main(page: ft.Page):
                 local_data = data[local_username]
                 print(local_username)
 
-                async def log_out(event):
+                def log_out(event):
                     global logged_in
                     logged_in = False
-                    await page.go_async("/home")
 
                 page.views.append(
                     ft.View(
@@ -421,7 +421,7 @@ async def main(page: ft.Page):
                 async def pick_files_result(e: ft.FilePickerResultEvent):
                     ad_id = check_id()
                     print(ad_id)
-                    ad_dir = f'ads/{ad_id}/'
+                    ad_dir = f'assets/ads/{ad_id}/'
                     os.makedirs(ad_dir, exist_ok=True)
 
                     for idx, file in enumerate(e.files):
@@ -475,7 +475,7 @@ async def main(page: ft.Page):
                 async def publish_ad(e):
                     ad_id = check_id()
                     print(ad_id)
-                    ad_dir = f'ads/{ad_id}/'
+                    ad_dir = f'assets/ads/{ad_id}/'
                     os.makedirs(ad_dir, exist_ok=True)
 
                     image_src = selected_files.controls[0].src if selected_files.controls else None
@@ -495,7 +495,7 @@ async def main(page: ft.Page):
 
                     data["ads"].append(ad_data)
 
-                    with open("assets/ads.json", "w") as file:
+                    with open("ads.json", "w") as file:
                         json.dump(data, file)
 
                     await page.go_async('/home')
@@ -603,4 +603,4 @@ async def main(page: ft.Page):
     page.on_view_pop = view_pop
     await page.go_async('/')
 
-ft.app(target=main, assets_dir='assets')
+ft.app(target=main, assets_dir='assets', view=ft.WEB_BROWSER)
