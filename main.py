@@ -601,6 +601,6 @@ async def main(page: ft.Page):
 
     page.on_route_change = route_change
     page.on_view_pop = view_pop
-    await page.go_async('/home')
+    await page.go_async('/')
 
 ft.app(target=main, assets_dir='assets')
