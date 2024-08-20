@@ -32,7 +32,7 @@ async def main(page: ft.Page):
             password = ft.TextField(hint_text="Пароль", password=True)
 
             async def check_user(event):
-                async with aiofiles.open(".venv/users_data.json", "r") as file:
+                async with aiofiles.open("users_data.json", "r") as file:
                     data = json.loads(await file.read())
                 if username.value in data:
                     temp_username_data = data[username.value]
