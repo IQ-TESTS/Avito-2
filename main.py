@@ -117,7 +117,7 @@ async def main(page: ft.Page):
 
             async def check_and_create(event):
 
-                async with aiofiles.open(".venv/users_data.json", "r") as file:
+                async with aiofiles.open("users_data.json", "r") as file:
                     data = json.loads(await file.read())
 
                 if password.value != password_confirm.value:
