@@ -32,7 +32,7 @@ async def main(page: ft.Page):
             password = ft.TextField(hint_text="Пароль", password=True)
 
             async def check_user(event):
-                async with aiofiles.open("users_data.json", "r") as file:
+                async with aiofiles.open(".venv/users_data.json", "r") as file:
                     data = json.loads(await file.read())
                 if username.value in data:
                     temp_username_data = data[username.value]
@@ -117,7 +117,7 @@ async def main(page: ft.Page):
 
             async def check_and_create(event):
 
-                async with aiofiles.open("users_data.json", "r") as file:
+                async with aiofiles.open(".venv/users_data.json", "r") as file:
                     data = json.loads(await file.read())
 
                 if password.value != password_confirm.value:
@@ -157,7 +157,7 @@ async def main(page: ft.Page):
 
 
                 else:
-                    with open("users_data.json", "r") as file:
+                    with open(".venv/users_data.json", "r") as file:
                         data = json.load(file)
 
                     data[username.value] = {}
@@ -172,7 +172,7 @@ async def main(page: ft.Page):
                     global local_username
                     local_username = new_user["username"]
 
-                    with open("users_data.json", "w") as file:
+                    with open(".venv/users_data.json", "w") as file:
                         json.dump(data, file)
 
                     src_dir = f'assets/{username.value}'
@@ -262,7 +262,7 @@ async def main(page: ft.Page):
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
             )
 
-            with open("ads.json", "r") as file:
+            with open("assets/ads.json", "r") as file:
                 data = json.load(file)
 
             row = None  # Variable to store current row
@@ -342,7 +342,7 @@ async def main(page: ft.Page):
             page.views.clear()
 
             if(logged_in):
-                with open('users_data.json', 'r') as file:
+                with open('.venv/users_data.json', 'r') as file:
                     data = json.load(file)
 
                 local_data = data[local_username]
@@ -401,12 +401,12 @@ async def main(page: ft.Page):
         elif page.route == "/publishAd":
             page.views.clear()
             if (logged_in):
-                with open('users_data.json', 'r') as file:
+                with open('.venv/users_data.json', 'r') as file:
                     data = json.load(file)
 
                 local_data = data[local_username]
 
-                with open("ads.json", "r") as file:
+                with open("assets/ads.json", "r") as file:
                     data = json.load(file)
 
 
@@ -490,12 +490,12 @@ async def main(page: ft.Page):
                         "chat_link": f"https://web.telegram.org/k/#@{local_username}"
                     }
 
-                    with open("ads.json", "r") as file:
+                    with open("assets/ads.json", "r") as file:
                         data = json.load(file)
 
                     data["ads"].append(ad_data)
 
-                    with open("ads.json", "w") as file:
+                    with open("assets/ads.json", "w") as file:
                         json.dump(data, file)
 
                     await page.go_async('/home')
@@ -565,7 +565,7 @@ async def main(page: ft.Page):
 
             )
 
-            with open("ads.json", "r") as file:
+            with open("assets/ads.json", "r") as file:
                 data = json.load(file)
 
             for i in data["ads"]:
