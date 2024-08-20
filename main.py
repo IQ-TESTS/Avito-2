@@ -1,6 +1,5 @@
 import flet as ft
 import json
-import asyncio
 import aiofiles
 import os
 import shutil
@@ -56,7 +55,7 @@ async def main(page: ft.Page):
                                     ft.Text("Неверное имя пользователя или пароль", weight=ft.FontWeight.BOLD,
                                             color=ft.colors.RED),
                                     ft.Text("Или", weight=ft.FontWeight.BOLD),
-                                    ft.ElevatedButton("Создайте новый", on_click=lambda _: page.go("/"))
+                                    ft.ElevatedButton("Создайте новый", on_click=lambda _: page.go("/signUp"))
                                 ],
                                 vertical_alignment=ft.MainAxisAlignment.CENTER,
                                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
@@ -76,7 +75,7 @@ async def main(page: ft.Page):
                                 ft.Text("Неверное имя пользователя или пароль", weight=ft.FontWeight.BOLD,
                                         color=ft.colors.RED),
                                 ft.Text("Или", weight=ft.FontWeight.BOLD),
-                                ft.ElevatedButton("Создайте новый", on_click=lambda _: page.go("/signIn"))
+                                ft.ElevatedButton("Создайте новый", on_click=lambda _: page.go("/signUp"))
                             ],
                             vertical_alignment=ft.MainAxisAlignment.CENTER,
                             horizontal_alignment=ft.CrossAxisAlignment.CENTER
@@ -349,9 +348,10 @@ async def main(page: ft.Page):
                 local_data = data[local_username]
                 print(local_username)
 
-                def log_out(event):
+                async def log_out(event):
                     global logged_in
                     logged_in = False
+                    await page.go_async("/home")
 
                 page.views.append(
                     ft.View(
@@ -601,6 +601,6 @@ async def main(page: ft.Page):
 
     page.on_route_change = route_change
     page.on_view_pop = view_pop
-    await page.go_async('/')
+    await page.go_async('/home')
 
-ft.app(target=main, assets_dir='assets', view=ft.WEB_BROWSER)
+ft.app(target=main, assets_dir='assets')
