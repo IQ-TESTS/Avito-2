@@ -262,7 +262,7 @@ async def main(page: ft.Page):
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
             )
 
-            with open("assets/ads.json", "r") as file:
+            with open("ads.json", "r") as file:
                 data = json.load(file)
 
             row = None  # Variable to store current row
@@ -342,7 +342,7 @@ async def main(page: ft.Page):
             page.views.clear()
 
             if(logged_in):
-                with open('.venv/users_data.json', 'r') as file:
+                with open('users_data.json', 'r') as file:
                     data = json.load(file)
 
                 local_data = data[local_username]
@@ -401,12 +401,12 @@ async def main(page: ft.Page):
         elif page.route == "/publishAd":
             page.views.clear()
             if (logged_in):
-                with open('.venv/users_data.json', 'r') as file:
+                with open('users_data.json', 'r') as file:
                     data = json.load(file)
 
                 local_data = data[local_username]
 
-                with open("assets/ads.json", "r") as file:
+                with open("ads.json", "r") as file:
                     data = json.load(file)
 
 
@@ -421,7 +421,7 @@ async def main(page: ft.Page):
                 async def pick_files_result(e: ft.FilePickerResultEvent):
                     ad_id = check_id()
                     print(ad_id)
-                    ad_dir = f'assets/ads/{ad_id}/'
+                    ad_dir = f'ads/{ad_id}/'
                     os.makedirs(ad_dir, exist_ok=True)
 
                     for idx, file in enumerate(e.files):
@@ -475,7 +475,7 @@ async def main(page: ft.Page):
                 async def publish_ad(e):
                     ad_id = check_id()
                     print(ad_id)
-                    ad_dir = f'assets/ads/{ad_id}/'
+                    ad_dir = f'ads/{ad_id}/'
                     os.makedirs(ad_dir, exist_ok=True)
 
                     image_src = selected_files.controls[0].src if selected_files.controls else None
@@ -490,7 +490,7 @@ async def main(page: ft.Page):
                         "chat_link": f"https://web.telegram.org/k/#@{local_username}"
                     }
 
-                    with open("assets/ads.json", "r") as file:
+                    with open("ads.json", "r") as file:
                         data = json.load(file)
 
                     data["ads"].append(ad_data)
@@ -565,7 +565,7 @@ async def main(page: ft.Page):
 
             )
 
-            with open("assets/ads.json", "r") as file:
+            with open("ads.json", "r") as file:
                 data = json.load(file)
 
             for i in data["ads"]:
