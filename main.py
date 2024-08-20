@@ -176,7 +176,7 @@ async def main(page: ft.Page):
                     with open("users_data.json", "w") as file:
                         json.dump(data, file)
 
-                    src_dir = f'assets/{username.value}'
+                    src_dir = f'{username.value}'
 
                     # Destination directory
                     dst_dir = 'assets/defaults'
@@ -185,10 +185,10 @@ async def main(page: ft.Page):
 
                     shutil.copyfile(dst_dir + '/avatar.jpg', src_dir + '/avatar.jpg')
 
-                    src_dir = f'assets/{username.value}/ads'
+                    src_dir = f'{username.value}/ads'
                     os.makedirs(src_dir, exist_ok=True)
 
-                    src_dir = f'assets/{username.value}/savedAds'
+                    src_dir = f'{username.value}/savedAds'
                     os.makedirs(src_dir, exist_ok=True)
 
                     global logged_in
@@ -421,7 +421,7 @@ async def main(page: ft.Page):
                 async def pick_files_result(e: ft.FilePickerResultEvent):
                     ad_id = check_id()
                     print(ad_id)
-                    ad_dir = f'assets/ads/{ad_id}/'
+                    ad_dir = f'ads/{ad_id}/'
                     os.makedirs(ad_dir, exist_ok=True)
 
                     for idx, file in enumerate(e.files):
@@ -475,7 +475,7 @@ async def main(page: ft.Page):
                 async def publish_ad(e):
                     ad_id = check_id()
                     print(ad_id)
-                    ad_dir = f'assets/ads/{ad_id}/'
+                    ad_dir = f'ads/{ad_id}/'
                     os.makedirs(ad_dir, exist_ok=True)
 
                     image_src = selected_files.controls[0].src if selected_files.controls else None
@@ -603,4 +603,4 @@ async def main(page: ft.Page):
     page.on_view_pop = view_pop
     await page.go_async('/')
 
-ft.app(target=main, assets_dir='assets', view=ft.WEB_BROWSER)
+ft.app(target=main, assets_dir='assets')
